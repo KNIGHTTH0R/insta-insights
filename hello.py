@@ -49,21 +49,41 @@ def insights():
     access_token, user_info = unauthenticated_api.exchange_code_for_access_token(code)
     # return str(user_info.keys())
     api = InstagramAPI(access_token=access_token)
+    api = InstagramAPI(access_token=access_token)
     recent_media, next_ = api.user_recent_media()
-    likes = [p.like_count for p in recent_media]
-    times = [p.created_time for p in recent_media]
+    ### get all media in one list
+    media = [p for p in recent_media]
     while next_:
-        more_media, next_ = api.user_recent_media(with_next_url=next_)
-        likes.extend(p.like_count for p in more_media)
-        times.extend(p.created_time for p in more_media)
+        m_media, next_ = api.user_recent_media(with_next_url=next_)
+        media.extend(p for p in m_media)
 
-    likes.reverse() # returned in recent order
-    times.reverse()
+    media.reverse() # returned in recent order
+
+    likes = [p.like_count for p in media]
+    times = [p.created_time for p in media]
+    filters = [p.filter for p in media]
+    types = [p.type for p in media]
+
+    # manipulate filters and types into dictionary (data format for Chart.js)
+    filter_counts = Counter(filters)
+    types_counts = Counter(types)
+
+    filter_data = []
+    for i in range(0, len(filter_counts.keys())):
+        this_filter = filter_counts.keys()[i]
+        filter_data.append({'label': this_filter, 'value': filter_counts[this_filter], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
+    types_data = []
+    for i in range(0, len(types_counts.keys())):
+        this_types = types_counts.keys()[i]
+        types_data.append({'label': this_types, 'value': types_counts[this_types], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
 
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
-        times=range(0, len(times)))
+        times=times,
+        blank_times=[""]*len(times),
+        filters=filter_data,
+        types=types_data)
 
 # testing for myself
 @app.route('/eddie')
