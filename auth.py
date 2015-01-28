@@ -5,6 +5,14 @@ with open('my_token.data', 'r') as f:
 
 api = InstagramAPI(access_token=acc_token)
 recent_media, next_ = api.user_recent_media()
+likes = [p.like_count for p in recent_media]
+times = [p.created_time for p in recent_media]
+while next_:
+    more_media, next_ = api.user_recent_media(with_next_url=next_)
+    likes.extend(p.like_count for p in more_media)
+    times.extend(p.created_time for p in more_media)
+
+
 
 pic1 = recent_media[0]
 
