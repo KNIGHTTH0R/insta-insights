@@ -6,11 +6,11 @@ from instagram.client import InstagramAPI
 app = Flask(__name__)
 app.debug = True
 
-@app.route('/')
-def landing():
-    return render_template('')
+# @app.route('/')
+# def landing():
+#     return render_template('')
 
-@app.route('/test')
+@app.route('/')
 def eddie():
     with open('my_token.data', 'r') as f:
         acc_token = f.read()
@@ -31,6 +31,10 @@ def eddie():
         likes=likes,
         times=range(0, len(times)))
     # return 'Hello'
+
+@app.route('/test')
+def test():
+    return render_template('cover.html')
 
 # below is for development only (when running python hello.py)
 if __name__ == '__main__':
