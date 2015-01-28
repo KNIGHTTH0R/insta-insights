@@ -1,0 +1,38 @@
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.chart-canv {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 1000px;
+    height: 400px;
+}
+
+.chart-canv-sm {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 500px;
+    height: 500px;
+}
+
+.half-1 {
+    padding-left: 100px;
+    width: 50%;
+    float: left;
+}
+
+.half-2 {
+    padding-right: 100px;
+    width: 50%;
+    float: right;
+}
+
+.top-buffer { margin-top:50px; }
