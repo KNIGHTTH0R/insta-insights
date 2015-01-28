@@ -1,18 +1,22 @@
 from instagram.client import InstagramAPI
 
 with open('my_token.data', 'r') as f:
-    acc_token = f.read()
-
-api = InstagramAPI(access_token=acc_token)
+    access_token = f.read()
+    
+api = InstagramAPI(access_token=access_token)
 recent_media, next_ = api.user_recent_media()
-likes = [p.like_count for p in recent_media]
-times = [p.created_time for p in recent_media]
+### get all media in one list
+media = [p for p in recent_media]
 while next_:
-    more_media, next_ = api.user_recent_media(with_next_url=next_)
-    likes.extend(p.like_count for p in more_media)
-    times.extend(p.created_time for p in more_media)
+    m_media, next_ = api.user_recent_media(with_next_url=next_)
+    media.extend(p for p in m_media)
 
+media.reverse() # returned in recent order
 
+likes = [p.like_count for p in media]
+times = [p.created_time for p in media]
+filters = [p.filter for p in media]
+types = [p.type for p in media]
 
 pic1 = recent_media[0]
 

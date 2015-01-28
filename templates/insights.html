@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>Insta-insights of "{{ username }}"</title>
+        <script src="{{ url_for('static', filename='js/Chart.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery-2.1.3.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/numeric-1.2.6.min.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/likes.css') }}">
+    </head>
+
+<body>
+
+<div class="row">
+    <div class="col-lg-1 col-centered">
+        <h1> {{ username }} </h1>
+    </div>
+</div>
+
+<!-- # of likes over account lifetime
+(line chart) -->
+<div class="row top-buffer">
+    <h3 class="text-center"> Likes Over Account Lifetime </h3>
+    <div>
+        <canvas class="chart-canv" id="like-lifetime"></canvas>
+    </div>
+</div>
+
+<!-- filters 
+(pie chart) 
+and
+type, pic or video
+(pie chart) -->
+<div class="row top-buffer">
+    <div class="half-1">
+    <h3 class="text-center"> Filters </h3>
+        <canvas class="chart-canv-sm" id="filters" ></canvas>
+    </div>
+    <div class="half-2">
+    <h3 class="text-center"> Image/Video </h3>
+        <canvas class="chart-canv-sm" id="type" ></canvas>
+    </div>
+</div>
+
+<!-- average # of likes throughout the day (group_by hour)
+(line chart) -->
+
+<!-- average # of likes by set of people tagged in the photo or caption
+(bar chart) -->
+<!-- <div class="row top-buffer">
+    <div>
+        <canvas class="chart-canv" id="myChart2"></canvas>
+    </div>
+</div> -->
+
+
+<!-- average # of likes by # of comments
+(bar chart) -->
+
+<!-- average # of likes by # of words in caption
+(bar chart) -->
+
+<!-- average # of likes by # of hashtags in caption
+(bar chart) -->
+
+
+
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+var ctx_likes = $("#like-lifetime").get(0).getContext("2d");
+
+var likes = JSON.parse('{{ likes | tojson | safe }}');
+var times = JSON.parse('{{ times | tojson | safe }}');
+var blank_times = JSON.parse('{{ blank_times | tojson | safe }}');
+
+var data_like_lifetime = {
+    labels: blank_times,
+    datasets: [
+        {
+            label: "Likes_over_pics",
+            fillColor: "#e74c3c",
+            strokeColor: "#c0392b",
+            pointColor: "#c0392b",
+            pointStrokeColor: "#fff",
+            // pointHighlightFill: "#fff",
+            // pointHighlightStroke: "rgba(220,220,220,1)",
+            data: likes
+        }
+    ]
+};
+
+var chart1 = new Chart(ctx_likes).Line(data_like_lifetime, {
+    showXLabels: 10,
+    tooltipTemplate: "<%= value %>",
+    multiTooltipTemplate:""
+});
+
+var filters = JSON.parse('{{ filters | tojson | safe }}');
+var types = JSON.parse('{{ types | tojson | safe }}');
+var ctx_filters = $("#filters").get(0).getContext("2d");
+var chart2 = new Chart(ctx_filters).Pie(filters);
+
+var ctx_type = $("#type").get(0).getContext("2d");
+var chart3 = new Chart(ctx_type).Doughnut(types);
+</script>
