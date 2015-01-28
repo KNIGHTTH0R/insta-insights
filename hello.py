@@ -13,7 +13,7 @@ app.debug = True
 CONFIG = {
     'client_id': '15f6735cc27f4e51820653e4ab91bfae',
     'client_secret': 'a4baf8708e504915a8d2f0bf2f9a3bba',
-    'redirect_uri': 'http://localhost:5000/insights'
+    'redirect_uri': 'http://insta-like-insights.herokuapp.com/insights'
 }
 
 unauthenticated_api = InstagramAPI(**CONFIG)
