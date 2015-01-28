@@ -27,8 +27,8 @@ a:hover {
 html,
 body {
   height: 100%;
-  background-color: #7f8c8d;
-/*  background-color: #fff; */
+  background-image: url("../images/b1.jpg");
+/*  background-image: url("chrome-extension://aeajehgeohhgjbhhbicilpenjfcbfnpg/dist/images/3.jpg");*/
 }
 body {
   color: #fff;
