@@ -80,7 +80,6 @@ def insights():
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
-        times=times,
         blank_times=[""]*len(times),
         filters=filter_data,
         types=types_data)
