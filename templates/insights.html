@@ -59,20 +59,16 @@ type, pic or video
     </div>
 </div>
 
-<!-- average # of likes throughout the day (group_by hour)
+<!-- average # of likes and Total Posts by hour
 (bar chart) -->
 <div class="container">
     <div class="row row-fix top-buffer">
-        <h3 class="text-center"> Average Likes By Hour (PST) </h3>
+        <h3 class="text-center"> Average Likes and Total Posts By Hour (PST) </h3>
         <div>
             <canvas class="chart-canv" id="like-hour"></canvas>
         </div>
     </div>
 </div>
-
-<!-- time pictures posted (pie chart)
-and
-# of people tagged in photo and caption (pie chart) -->
 
 
 <!-- average # of likes by set of people tagged in the photo or caption
@@ -122,7 +118,6 @@ var data_like_lifetime = {
 var chart1 = new Chart(ctx_likes).Line(data_like_lifetime, {
     showXLabels: 10,
     tooltipTemplate: "<%= value %>",
-    multiTooltipTemplate:""
 });
 
 var filter_counts = JSON.parse('{{ filter_counts | tojson | safe }}');
@@ -155,19 +150,30 @@ var chart4 = new Chart(ctx_like_filter).Bar(data_like_filter);
 
 var hours = JSON.parse('{{ hours | tojson | safe }}');
 var hour_likes = JSON.parse('{{ hour_likes | tojson | safe }}');
+var hour_posts = JSON.parse('{{ hour_posts | tojson | safe }}');
 var ctx_like_hours = $('#like-hour').get(0).getContext("2d");
 var data_like_hours = {
     labels: hours,
     datasets: [
         {
-            label: "Likes_over_hours",
+            label: "Mean_Likes",
             fillColor: "#3498db",
             strokeColor: "#2980b9",
             pointColor: "#2980b9",
             pointStrokeColor: "#fff",
             data: hour_likes
+        },
+        {
+            label: "Total_Posts",
+            fillColor: "#1abc9c",
+            strokeColor: "#16a085",
+            pointColor: "#16a085",
+            pointStrokeColor: "#fff",
+            data: hour_posts
         }
     ]
 };
-var chart5 = new Chart(ctx_like_hours).Bar(data_like_hours);
+var chart5 = new Chart(ctx_like_hours).Bar(data_like_hours, {
+    multiTooltipTemplate: "<%= datasetLabel %>: <%= value %>"
+});
 </script>
