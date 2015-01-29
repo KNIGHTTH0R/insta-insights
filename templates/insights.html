@@ -74,7 +74,7 @@ type, pic or video
 (bar chart) -->
 <div class="container">
     <div class="row row-fix top-buffer">
-        <h3 class="text-center"> Average Likes and Total Posts By Hour (PST) </h3>
+        <h3 class="text-center"> Average Likes and Total Posts By Hour</h3>
         <div>
             <canvas class="chart-canv" id="like-hour"></canvas>
         </div>
@@ -111,8 +111,7 @@ type, pic or video
 // get time zone
 var date = new Date();
 var offset = date.getTimezoneOffset();
-console.log(date);
-console.log(offset);
+var off_hours = offset / 60;
 
 var ctx_likes = $("#like-lifetime").get(0).getContext("2d");
 var likes = JSON.parse('{{ likes | tojson | safe }}');
@@ -146,7 +145,6 @@ var chart3 = new Chart(ctx_type).Doughnut(type_counts);
 
 var filters = JSON.parse('{{ filters | tojson | safe }}');
 var filter_likes = JSON.parse('{{ filter_likes | tojson | safe }}');
-console.log(filter_likes);
 var ctx_like_filter = $('#like-filter').get(0).getContext("2d");
 var data_like_filter = {
     labels: filters,
@@ -164,13 +162,18 @@ var data_like_filter = {
 var chart4 = new Chart(ctx_like_filter).Bar(data_like_filter);
 
 
-
 var hours = JSON.parse('{{ hours | tojson | safe }}');
+var conv_hours = new Array(hours.length);
+// fix timezone offset
+for (var i = 0; i < hours.length; i++) {
+    conv_hours[i] = (24 + i - 5) % 24;
+}
+
 var hour_likes = JSON.parse('{{ hour_likes | tojson | safe }}');
 var hour_posts = JSON.parse('{{ hour_posts | tojson | safe }}');
 var ctx_like_hours = $('#like-hour').get(0).getContext("2d");
 var data_like_hours = {
-    labels: hours,
+    labels: conv_hours,
     datasets: [
         {
             label: "Mean_Likes",

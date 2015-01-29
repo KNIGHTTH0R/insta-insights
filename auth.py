@@ -11,6 +11,9 @@ while next_:
     m_media, next_ = api.user_recent_media(with_next_url=next_)
     media.extend(p for p in m_media)
 
+print "Last picture posted at " + str(media[0].created_time)
+
+
 media.reverse() # returned in recent order
 
 likes = [p.like_count for p in media]
