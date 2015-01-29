@@ -9,6 +9,17 @@
         <script src="{{ url_for('static', filename='js/numeric-1.2.6.min.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/likes.css') }}">
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-42082652-2', 'auto');
+          ga('send', 'pageview');
+
+        </script>
     </head>
 
 <body>
@@ -97,6 +108,12 @@ type, pic or video
 </html>
 
 <script type="text/javascript">
+// get time zone
+var date = new Date();
+var offset = date.getTimezoneOffset();
+console.log(date);
+console.log(offset);
+
 var ctx_likes = $("#like-lifetime").get(0).getContext("2d");
 var likes = JSON.parse('{{ likes | tojson | safe }}');
 var blank_times = JSON.parse('{{ blank_times | tojson | safe }}');
