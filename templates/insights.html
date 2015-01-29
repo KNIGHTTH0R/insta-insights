@@ -13,7 +13,7 @@
 
 <body>
 
-<div class="row">
+<div class="row row-fix">
     <div class="col-lg-1 col-centered">
         <h1> {{ username }} </h1>
     </div>
@@ -22,7 +22,7 @@
 <div class="container">
     <!-- # of likes over account lifetime
     (line chart) -->
-    <div class="row top-buffer">
+    <div class="row row-fix top-buffer">
         <h3 class="text-center"> Likes Over Account Lifetime </h3>
         <div>
             <canvas class="chart-canv" id="like-lifetime"></canvas>
@@ -36,7 +36,7 @@ and
 type, pic or video
 (pie chart) -->
 <div class="container">
-    <div class="row top-buffer">
+    <div class="row row-fix top-buffer">
         <div class="half-1">
         <h3 class="text-center"> Filters </h3>
             <canvas class="chart-canv" id="filters" ></canvas>
@@ -51,7 +51,7 @@ type, pic or video
 <!-- average # likes by filter
 (bar chart) -->
 <div class="container">
-    <div class="row top-buffer">
+    <div class="row row-fix top-buffer">
         <h3 class="text-center"> Average Likes By Filter </h3>
         <div>
             <canvas class="chart-canv" id="like-filter"></canvas>
@@ -62,7 +62,7 @@ type, pic or video
 <!-- average # of likes throughout the day (group_by hour)
 (bar chart) -->
 <div class="container">
-    <div class="row top-buffer">
+    <div class="row row-fix top-buffer">
         <h3 class="text-center"> Average Likes By Hour (PST) </h3>
         <div>
             <canvas class="chart-canv" id="like-hour"></canvas>
@@ -77,7 +77,7 @@ and
 
 <!-- average # of likes by set of people tagged in the photo or caption
 (bar chart) -->
-<!-- <div class="row top-buffer">
+<!-- <div class="row row-fix top-buffer">
     <div>
         <canvas class="chart-canv" id="myChart2"></canvas>
     </div>

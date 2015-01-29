@@ -21,3 +21,8 @@
 }
 
 .top-buffer { margin-top:50px; }
+
+.row-fix {
+    margin-left: 0px;
+    margin-right: 0px;
+}
