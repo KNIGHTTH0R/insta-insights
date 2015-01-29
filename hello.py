@@ -1,7 +1,6 @@
 import os
-from flask import request
-from flask import Flask
-from flask import render_template
+from flask import request, Flask, render_template
+from flask import redirect, url_for, session
 from instagram.client import InstagramAPI
 from collections import Counter
 import numpy as np 
@@ -12,11 +11,15 @@ app.debug = True
 
 # CONFIG redirect change for production
 # (also change on Instagram API)
+with open('client_id.secret', 'r') as f:
+    client_id = f.read()
+with open('client_secret.secret', 'r') as f:
+    client_secret = f.read()
 
 CONFIG = {
-    'client_id': '15f6735cc27f4e51820653e4ab91bfae',
-    'client_secret': 'a4baf8708e504915a8d2f0bf2f9a3bba',
-    'redirect_uri': 'http://insta-insights.herokuapp.com/insights'
+    'client_id': client_id,
+    'client_secret': client_secret,
+    'redirect_uri': 'http://localhost:5000/oauth_callback'
 }
 
 colors = ['#1abc9c', '#3498db', '#34495e', '#27ae60', '#8e44ad',
@@ -45,13 +48,18 @@ def landing():
     return render_template('cover.html',
         url=url)
 
-@app.route('/insights')
-def insights():
+@app.route('/oauth_callback')
+def oauth_callback():
     code = request.args['code']
     access_token, user_info = unauthenticated_api.exchange_code_for_access_token(code)
-    # return str(user_info.keys())
-    api = InstagramAPI(access_token=access_token)
-    api = InstagramAPI(access_token=access_token)
+    session['access_token'] = access_token 
+    session['user_info'] = user_info
+    return redirect(url_for('insights'))
+
+@app.route('/insights')
+def insights():
+    user_info = session['user_info']
+    api = InstagramAPI(access_token=session['access_token'])
     recent_media, next_ = api.user_recent_media()
     ### get all media in one list
     media = [p for p in recent_media]
@@ -90,7 +98,7 @@ def insights():
         'likes' : np.array(likes)})
     mean_by_hour = df1.groupby('hour').agg([np.mean])
     mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
-    
+
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
@@ -157,6 +165,7 @@ def eddie():
         hours=range(0, 24),
         hour_likes = mean_by_hour_list)
 
-# below is for development only (when running python hello.py)
 if __name__ == '__main__':
+    with open('flask.secret', 'r') as f:
+        app.secret_key = f.read()
     app.run()
