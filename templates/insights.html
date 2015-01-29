@@ -35,7 +35,7 @@
 and
 type, pic or video
 (pie chart) -->
-<div class="container fuller">
+<div class="container">
     <div class="row top-buffer">
         <div class="half-1">
         <h3 class="text-center"> Filters </h3>
@@ -80,7 +80,6 @@ type, pic or video
 var ctx_likes = $("#like-lifetime").get(0).getContext("2d");
 
 var likes = JSON.parse('{{ likes | tojson | safe }}');
-var times = JSON.parse('{{ times | tojson | safe }}');
 var blank_times = JSON.parse('{{ blank_times | tojson | safe }}');
 
 var data_like_lifetime = {
