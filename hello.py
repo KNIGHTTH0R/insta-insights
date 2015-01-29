@@ -8,7 +8,9 @@ import pandas as pd
 
 app = Flask(__name__)
 app.debug = True
-
+with open('flask.secret', 'r') as f:
+    app.secret_key = f.read()
+    
 # CONFIG redirect change for production
 # (also change on Instagram API)
 with open('client_id.secret', 'r') as f:
@@ -19,7 +21,7 @@ with open('client_secret.secret', 'r') as f:
 CONFIG = {
     'client_id': client_id,
     'client_secret': client_secret,
-    'redirect_uri': 'http://localhost:5000/oauth_callback'
+    'redirect_uri': 'http://insta-insights.herokuapp.com/oauth_callback'
 }
 
 colors = ['#1abc9c', '#3498db', '#34495e', '#27ae60', '#8e44ad',
@@ -166,6 +168,4 @@ def eddie():
         hour_likes = mean_by_hour_list)
 
 if __name__ == '__main__':
-    with open('flask.secret', 'r') as f:
-        app.secret_key = f.read()
     app.run()
