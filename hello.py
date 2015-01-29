@@ -81,10 +81,16 @@ def insights():
 
     # isolate hours and likes into dataframe
     hours = [t.hour for t in times]
+    # add in hours that have 0 count
+    for i in range(0, 23):
+        if i not in hours:
+            hours.append(i)
+            likes.append(0)
     df1 = pd.DataFrame({'hour' : np.array(hours),
         'likes' : np.array(likes)})
     mean_by_hour = df1.groupby('hour').agg([np.mean])
     mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
+    
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
@@ -130,10 +136,17 @@ def eddie():
 
     # isolate hours and likes into dataframe
     hours = [t.hour for t in times]
+    # add in hours that have 0 count
+    for i in range(0, 23):
+        if i not in hours:
+            hours.append(i)
+            likes.append(0)
     df1 = pd.DataFrame({'hour' : np.array(hours),
         'likes' : np.array(likes)})
     mean_by_hour = df1.groupby('hour').agg([np.mean])
     mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
+
+
     return render_template('insights.html',
         username='edz504',
         likes=likes,
