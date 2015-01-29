@@ -89,6 +89,15 @@ def insights():
         this_types = types_counts.keys()[i]
         types_data.append({'label': this_types, 'value': types_counts[this_types], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
 
+    # isolate filters and likes into dataframe
+    df_filter = pd.DataFrame({'filter' : np.array(filters),
+        'likes': np.array(likes)})
+    # group_by, summarize mean, and sort (re-list filters)
+    mean_by_filter = df_filter.groupby('filter').agg([np.mean]).sort(
+        [('likes', 'mean')], ascending=[0])
+    mean_by_filter_list = mean_by_filter.iloc[:,0].tolist()
+    filters = mean_by_filter.index.tolist()
+
     # isolate hours and likes into dataframe
     hours = [t.hour for t in times]
     # add in hours that have 0 count
@@ -96,9 +105,9 @@ def insights():
         if i not in hours:
             hours.append(i)
             likes.append(0)
-    df1 = pd.DataFrame({'hour' : np.array(hours),
+    df_hour = pd.DataFrame({'hour' : np.array(hours),
         'likes' : np.array(likes)})
-    mean_by_hour = df1.groupby('hour').agg([np.mean])
+    mean_by_hour = df_hour.groupby('hour').agg([np.mean])
     mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
 
     return render_template('insights.html',
@@ -106,14 +115,18 @@ def insights():
         likes=likes,
         times=times,
         blank_times=[""]*len(times),
-        filters=filter_data,
-        types=types_data,
-        hours=range(0, 24),
+        filter_counts = filter_data,
+        type_counts = types_data,
+        filters = filters,
+        filter_likes = mean_by_filter_list,
+        hours = range(0, 24),
         hour_likes = mean_by_hour_list)
 
 # testing for myself
 @app.route('/eddie')
 def eddie():
+    # dict so i can c&p into the real view above
+    user_info = {'username': 'edz504'}
     with open('my_token.data', 'r') as f:
         access_token = f.read()
     api = InstagramAPI(access_token=access_token)
@@ -144,6 +157,15 @@ def eddie():
         this_types = types_counts.keys()[i]
         types_data.append({'label': this_types, 'value': types_counts[this_types], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
 
+    # isolate filters and likes into dataframe
+    df_filter = pd.DataFrame({'filter' : np.array(filters),
+        'likes': np.array(likes)})
+    # group_by, summarize mean, and sort (re-list filters)
+    mean_by_filter = df_filter.groupby('filter').agg([np.mean]).sort(
+        [('likes', 'mean')], ascending=[0])
+    mean_by_filter_list = mean_by_filter.iloc[:,0].tolist()
+    filters = mean_by_filter.index.tolist()
+
     # isolate hours and likes into dataframe
     hours = [t.hour for t in times]
     # add in hours that have 0 count
@@ -151,20 +173,21 @@ def eddie():
         if i not in hours:
             hours.append(i)
             likes.append(0)
-    df1 = pd.DataFrame({'hour' : np.array(hours),
+    df_hour = pd.DataFrame({'hour' : np.array(hours),
         'likes' : np.array(likes)})
-    mean_by_hour = df1.groupby('hour').agg([np.mean])
+    mean_by_hour = df_hour.groupby('hour').agg([np.mean])
     mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
 
-
     return render_template('insights.html',
-        username='edz504',
+        username=user_info['username'],
         likes=likes,
         times=times,
         blank_times=[""]*len(times),
-        filters=filter_data,
-        types=types_data,
-        hours=range(0, 24),
+        filter_counts = filter_data,
+        type_counts = types_data,
+        filters = filters,
+        filter_likes = mean_by_filter_list,
+        hours = range(0, 24),
         hour_likes = mean_by_hour_list)
 
 if __name__ == '__main__':

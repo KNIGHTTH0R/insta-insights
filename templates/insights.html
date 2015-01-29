@@ -48,6 +48,16 @@ type, pic or video
     </div>
 </div>
 
+<!-- average # likes by filter
+(bar chart) -->
+<div class="container">
+    <div class="row top-buffer">
+        <h3 class="text-center"> Average Likes By Filter </h3>
+        <div>
+            <canvas class="chart-canv" id="like-filter"></canvas>
+        </div>
+    </div>
+</div>
 
 <!-- average # of likes throughout the day (group_by hour)
 (bar chart) -->
@@ -59,6 +69,11 @@ type, pic or video
         </div>
     </div>
 </div>
+
+<!-- time pictures posted (pie chart)
+and
+# of people tagged in photo and caption (pie chart) -->
+
 
 <!-- average # of likes by set of people tagged in the photo or caption
 (bar chart) -->
@@ -87,17 +102,15 @@ type, pic or video
 
 <script type="text/javascript">
 var ctx_likes = $("#like-lifetime").get(0).getContext("2d");
-
 var likes = JSON.parse('{{ likes | tojson | safe }}');
 var blank_times = JSON.parse('{{ blank_times | tojson | safe }}');
-
 var data_like_lifetime = {
     labels: blank_times,
     datasets: [
         {
             label: "Likes_over_pics",
-            fillColor: "#e74c3c",
-            strokeColor: "#c0392b",
+            fillColor: "#ff9d8f",
+            strokeColor: "#f26b5d",
             pointColor: "#c0392b",
             pointStrokeColor: "#fff",
             // pointHighlightFill: "#fff",
@@ -106,20 +119,39 @@ var data_like_lifetime = {
         }
     ]
 };
-
 var chart1 = new Chart(ctx_likes).Line(data_like_lifetime, {
     showXLabels: 10,
     tooltipTemplate: "<%= value %>",
     multiTooltipTemplate:""
 });
 
-var filters = JSON.parse('{{ filters | tojson | safe }}');
-var types = JSON.parse('{{ types | tojson | safe }}');
+var filter_counts = JSON.parse('{{ filter_counts | tojson | safe }}');
+var type_counts = JSON.parse('{{ type_counts | tojson | safe }}');
 var ctx_filters = $("#filters").get(0).getContext("2d");
-var chart2 = new Chart(ctx_filters).Pie(filters);
-
+var chart2 = new Chart(ctx_filters).Pie(filter_counts);
 var ctx_type = $("#type").get(0).getContext("2d");
-var chart3 = new Chart(ctx_type).Doughnut(types);
+var chart3 = new Chart(ctx_type).Doughnut(type_counts);
+
+var filters = JSON.parse('{{ filters | tojson | safe }}');
+var filter_likes = JSON.parse('{{ filter_likes | tojson | safe }}');
+console.log(filter_likes);
+var ctx_like_filter = $('#like-filter').get(0).getContext("2d");
+var data_like_filter = {
+    labels: filters,
+    datasets: [
+        {
+            label: "Likes_over_filters",
+            fillColor: '#9b59b6',
+            strokeColor: '#8e44ad',
+            pointColor: '#8e44ad',
+            pointStrokeColor: '#fff',
+            data: filter_likes
+        }
+    ]
+};
+var chart4 = new Chart(ctx_like_filter).Bar(data_like_filter);
+
+
 
 var hours = JSON.parse('{{ hours | tojson | safe }}');
 var hour_likes = JSON.parse('{{ hour_likes | tojson | safe }}');
@@ -137,5 +169,5 @@ var data_like_hours = {
         }
     ]
 };
-var chart4 = new Chart(ctx_like_hours).Bar(data_like_hours);
+var chart5 = new Chart(ctx_like_hours).Bar(data_like_hours);
 </script>
