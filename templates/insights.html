@@ -48,8 +48,17 @@ type, pic or video
     </div>
 </div>
 
+
 <!-- average # of likes throughout the day (group_by hour)
-(line chart) -->
+(bar chart) -->
+<div class="container">
+    <div class="row top-buffer">
+        <h3 class="text-center"> Average Likes By Hour </h3>
+        <div>
+            <canvas class="chart-canv" id="like-hour"></canvas>
+        </div>
+    </div>
+</div>
 
 <!-- average # of likes by set of people tagged in the photo or caption
 (bar chart) -->
@@ -111,4 +120,22 @@ var chart2 = new Chart(ctx_filters).Pie(filters);
 
 var ctx_type = $("#type").get(0).getContext("2d");
 var chart3 = new Chart(ctx_type).Doughnut(types);
+
+var hours = JSON.parse('{{ hours | tojson | safe }}');
+var hour_likes = JSON.parse('{{ hour_likes | tojson | safe }}');
+var ctx_like_hours = $('#like-hour').get(0).getContext("2d");
+var data_like_hours = {
+    labels: hours,
+    datasets: [
+        {
+            label: "Likes_over_hours",
+            fillColor: "#3498db",
+            strokeColor: "#2980b9",
+            pointColor: "#2980b9",
+            pointStrokeColor: "#fff",
+            data: hour_likes
+        }
+    ]
+};
+var chart4 = new Chart(ctx_like_hours).Bar(data_like_hours);
 </script>

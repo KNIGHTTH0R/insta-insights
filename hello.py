@@ -4,6 +4,8 @@ from flask import Flask
 from flask import render_template
 from instagram.client import InstagramAPI
 from collections import Counter
+import numpy as np 
+import pandas as pd
 
 app = Flask(__name__)
 app.debug = True
@@ -77,12 +79,21 @@ def insights():
         this_types = types_counts.keys()[i]
         types_data.append({'label': this_types, 'value': types_counts[this_types], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
 
+    # isolate hours and likes into dataframe
+    hours = [t.hour for t in times]
+    df1 = pd.DataFrame({'hour' : np.array(hours),
+        'likes' : np.array(likes)})
+    mean_by_hour = df1.groupby('hour').agg([np.mean])
+    mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
+        times=times,
         blank_times=[""]*len(times),
         filters=filter_data,
-        types=types_data)
+        types=types_data,
+        hours=range(0, 24),
+        hour_likes = mean_by_hour_list)
 
 # testing for myself
 @app.route('/eddie')
@@ -117,13 +128,21 @@ def eddie():
         this_types = types_counts.keys()[i]
         types_data.append({'label': this_types, 'value': types_counts[this_types], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
 
+    # isolate hours and likes into dataframe
+    hours = [t.hour for t in times]
+    df1 = pd.DataFrame({'hour' : np.array(hours),
+        'likes' : np.array(likes)})
+    mean_by_hour = df1.groupby('hour').agg([np.mean])
+    mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
     return render_template('insights.html',
         username='edz504',
         likes=likes,
         times=times,
         blank_times=[""]*len(times),
         filters=filter_data,
-        types=types_data)
+        types=types_data,
+        hours=range(0, 24),
+        hour_likes = mean_by_hour_list)
 
 # below is for development only (when running python hello.py)
 if __name__ == '__main__':
