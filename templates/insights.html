@@ -108,6 +108,14 @@ type, pic or video
 </html>
 
 <script type="text/javascript">
+function arrayRotate(arr, reverse){
+  if(reverse)
+    arr.push(arr.shift());
+  else
+    arr.unshift(arr.pop());
+  return arr;
+} 
+
 // get time zone
 var date = new Date();
 var offset = date.getTimezoneOffset();
@@ -163,17 +171,20 @@ var chart4 = new Chart(ctx_like_filter).Bar(data_like_filter);
 
 
 var hours = JSON.parse('{{ hours | tojson | safe }}');
-var conv_hours = new Array(hours.length);
-// fix timezone offset
-for (var i = 0; i < hours.length; i++) {
-    conv_hours[i] = (24 + i - 5) % 24;
-}
-
 var hour_likes = JSON.parse('{{ hour_likes | tojson | safe }}');
 var hour_posts = JSON.parse('{{ hour_posts | tojson | safe }}');
+
+for (var i = 0; i < off_hours; i++) {
+    hour_likes = arrayRotate(hour_likes, true);
+    hour_posts = arrayRotate(hour_posts, true);
+}
+console.log(hour_likes);
+console.log(hour_posts);
+// rotate the three arrays for time zone conversion
+
 var ctx_like_hours = $('#like-hour').get(0).getContext("2d");
 var data_like_hours = {
-    labels: conv_hours,
+    labels: hours,
     datasets: [
         {
             label: "Mean_Likes",
