@@ -100,15 +100,21 @@ def insights():
 
     # isolate hours and likes into dataframe
     hours = [t.hour for t in times]
+    missing_hours = []
     # add in hours that have 0 count
     for i in range(0, 23):
         if i not in hours:
+            missing_hours.append(i)
             hours.append(i)
             likes.append(0)
     df_hour = pd.DataFrame({'hour' : np.array(hours),
         'likes' : np.array(likes)})
-    mean_by_hour = df_hour.groupby('hour').agg([np.mean])
+    mean_by_hour = df_hour.groupby('hour').agg([np.mean, len])
     mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
+    posts_by_hour_list = mean_by_hour.iloc[:, 1].tolist()
+    # the missing ones need to be reset to 0 (counted as 1)
+    for mhour in missing_hours:
+        posts_by_hour_list[mhour] = 0
 
     return render_template('insights.html',
         username=user_info['username'],
@@ -120,7 +126,8 @@ def insights():
         filters = filters,
         filter_likes = mean_by_filter_list,
         hours = range(0, 24),
-        hour_likes = mean_by_hour_list)
+        hour_likes = mean_by_hour_list,
+        hour_posts = posts_by_hour_list)
 
 # testing for myself
 @app.route('/eddie')
