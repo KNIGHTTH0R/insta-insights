@@ -102,13 +102,14 @@ def insights():
     hours = [t.hour for t in times]
     missing_hours = []
     # add in hours that have 0 count
+    filled_likes = list(likes)
     for i in range(0, 23):
         if i not in hours:
             missing_hours.append(i)
             hours.append(i)
-            likes.append(0)
+            filled_likes.append(0)
     df_hour = pd.DataFrame({'hour' : np.array(hours),
-        'likes' : np.array(likes)})
+        'likes' : np.array(filled_likes)})
     mean_by_hour = df_hour.groupby('hour').agg([np.mean, len])
     mean_by_hour_list = mean_by_hour.iloc[:,0].tolist()
     posts_by_hour_list = mean_by_hour.iloc[:, 1].tolist()
@@ -117,37 +118,29 @@ def insights():
         posts_by_hour_list[mhour] = 0
 
     ### captions
-    # words in caption
-    caption_word_count = {}
+    num_words = []
+    num_tags = []
     for p in media:
         if p.caption is not None:
-            this_word_count = len(p.caption.text.split(' '))
-            if this_word_count not in caption_word_count.keys():
-                caption_word_count[this_word_count] = 1
-            else:
-                caption_word_count[this_word_count] += 1
-
-    caption_word_data = []
-    for i in range(0, len(caption_word_count.keys())):
-        this_word_count = caption_word_count.keys()[i]
-        caption_word_data.append({'label': this_word_count, 'value': caption_word_count[this_word_count], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
-
-    # tags in caption
-    caption_tag_count = {}
-    for p in media:
+            num_words.append(len(p.caption.text.split(' ')))
+        else:
+            num_words.append(0)
         if 'tags' in p.__dict__.keys():
-            this_tag_count = len(p.tags)
-            if this_tag_count not in caption_tag_count.keys():
-                caption_tag_count[this_tag_count] = 1
-            else:
-                caption_tag_count[this_tag_count] += 1
+            num_tags.append(len(p.tags))
+        else:
+            num_tags.append(0)
+    # likes by words in caption
+    df_caption = pd.DataFrame({'num_words' : np.array(num_words),
+        'num_tags' : np.array(num_tags),
+        'likes' : np.array(likes)})
+    mean_by_words = df_caption.groupby('num_words').agg(np.mean)
+    mean_by_words_list = mean_by_words.iloc[:,0].tolist()
+    mean_by_words_labels = [int(i) for i in mean_by_words.index.tolist()]
+    mean_by_tags = df_caption.groupby('num_tags').agg(np.mean)
+    mean_by_tags_list = mean_by_tags.iloc[:, 0].tolist()
+    mean_by_tags_labels = [int(i) for i in mean_by_tags.index.tolist()]
 
-    caption_tag_data = []
-    for i in range(0, len(caption_tag_count.keys())):
-        this_tag_count = caption_tag_count.keys()[i]
-        caption_tag_data.append({'label': this_tag_count, 'value': caption_tag_count[this_tag_count], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
-
-    # embarassing
+    ### embarassing
     # number of your own pictures you liked
     sad_count = 0
     for p in media:
@@ -171,7 +164,6 @@ def insights():
                 if 'nofilter' in [t.name.lower() for t in p.tags]:
                     true_nofilter_count += 1
 
-
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
@@ -184,8 +176,10 @@ def insights():
         hours = range(0, 24),
         hour_likes = mean_by_hour_list,
         hour_posts = posts_by_hour_list,
-        caption_word_count = caption_word_data,
-        caption_tag_count = caption_tag_data,
+        words = mean_by_words_labels,
+        word_likes = mean_by_words_list,
+        tags = mean_by_tags_labels,
+        tag_likes = mean_by_tags_list,
         sad_count = sad_count,
         false_nofilter_count=false_nofilter_count,
         true_nofilter_count=true_nofilter_count,
