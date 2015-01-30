@@ -348,6 +348,12 @@ def eddie():
         top_fans.append({'username': fan,
             'likes': int(df.loc[fan]),
             'prof_pic': pic_urls[fan]})
+    fan50_usernames = []
+    fan50_likes = []
+    for fan in df.index[0:50]:
+        fan50_usernames.append(fan)
+        fan50_likes.append(int(df.loc[fan]))
+
 
 
     return render_template('insights.html',
@@ -370,7 +376,9 @@ def eddie():
         false_nofilter_count=false_nofilter_count,
         true_nofilter_count=true_nofilter_count,
         total_nofilter_count=false_nofilter_count+true_nofilter_count,
-        top_fans=top_fans)
+        top_fans=top_fans,
+        fan50_usernames=fan50_usernames,
+        fan50_likes=fan50_likes)
 
 if __name__ == '__main__':
     app.run()

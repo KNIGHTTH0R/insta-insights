@@ -16,4 +16,4 @@ NOTES:
 - show x labels option will hopefully be merged soon:
 https://github.com/nnnick/Chart.js/pull/897
 - hyperlink top 6 fans to IG profiles
-- change to "of your own pictures"
+- image hover opacity on thumbnails
