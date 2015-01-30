@@ -15,3 +15,5 @@ NOTES:
 - modularize the code in hello.py
 - "loading" gif
 http://www.netavatar.co.in/2011/05/31/how-to-show-a-loading-gif-image-while-a-page-loads-using-javascript-and-css/
+- show x labels option will hopefully be merged soon:
+https://github.com/nnnick/Chart.js/pull/897

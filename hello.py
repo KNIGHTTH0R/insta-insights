@@ -62,7 +62,8 @@ def oauth_callback():
 @app.route('/insights')
 def insights():
     user_info = session['user_info']
-    api = InstagramAPI(access_token=session['access_token'])
+    access_token = session['access_token']
+    api = InstagramAPI(access_token=access_token)
     recent_media, next_ = api.user_recent_media()
     ### get all media in one list
     media = [p for p in recent_media]
