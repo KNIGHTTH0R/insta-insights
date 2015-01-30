@@ -13,8 +13,10 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
+
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/cover.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/loader.css') }}" rel="stylesheet">
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -40,11 +42,11 @@
             <h1 class="cover-heading">Insta-Insights</h1>
             <p class="lead text-center">Click below for some insights into your Instagram posts.</p>
             <p class="lead">
-              <a href="{{ url }}" class="btn btn-lg btn-default">Crunch those numbers</a>
+              <a href="{{ url }}" class="btn btn-lg btn-default" id="crunch-generic">Crunch those numbers</a>
             </p>
             <p class="lead text-center">Or, if you don't have an Instagram account:</p>
             <p class="lead">
-              <a href="/eddie" class="btn btn-lg btn-default">Crunch Eddie's numbers</a>
+              <a href="/eddie" class="btn btn-lg btn-default" id="crunch-eddie">Crunch Eddie's numbers</a>
             </p>
           </div>
 
@@ -60,10 +62,53 @@
 
     </div>
 
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-center">
+    <div class="modal-content">
+      <div class="modal-body">
+         <div class="thing">
+          <div class="beam r1 r"></div>
+          <div class="beam r3 r"></div>
+          <div class="beam b1 b"></div>
+          <div class="beam b3 b"></div>
+        </div>
+      </div>
+<!--      <div class="modal-footer">
+        <p></br></br><h4 class="text-center">Crunching...</h4></p>
+    </div> -->
+    </div>
+  </div>
+</div>
+
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript">
+    $( "#crunch-generic" ).click(function() {
+      $('#myModal').modal('show');
+    });
+
+    $( "#crunch-eddie" ).click(function() {
+      $('#myModal').modal('show');
+    });
+
+    function centerModal() {
+      $(this).css('display', 'block');
+      var $dialog = $(this).find(".modal-dialog");
+      var offset = ($(window).height() - $dialog.height()) / 2;
+      // Center modal vertically in window
+      $dialog.css("margin-top", offset);
+    }
+
+    $('.modal').on('show.bs.modal', centerModal);
+    $(window).on("resize", function () {
+        $('.modal:visible').each(centerModal);
+    });
+    </script>
   </body>
 </html>
