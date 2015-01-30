@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>Insta-insights of "{{ username }}"</title>
+        <title>Insta-insights of {{ username }}</title>
         <script src="{{ url_for('static', filename='js/Chart.js') }}"></script>
         <script src="{{ url_for('static', filename='js/jquery-2.1.3.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
@@ -29,11 +29,13 @@
         <h1> {{ username }} </h1>
     </div>
 </div>
+{% if username != 'edz504' %}
 <div class="row row-fix">
     <div class="col-md-3 col-centered text-center">
         <h4> Note: If your insights suck because you have no posts, check out <a href = "/eddie" target="blank"> mine! </a></h4>
     </div>
 </div>
+{% endif %}
 
 <div class="container">
     <!-- # of likes over account lifetime

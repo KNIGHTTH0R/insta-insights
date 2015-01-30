@@ -13,8 +13,6 @@ Biggest Fans
 
 
 
-
-
 NOTES:
 - modularize the code in hello.py
 - add link to /eddie on landing
