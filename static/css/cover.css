@@ -183,3 +183,8 @@ body {
   text-shadow: 0 0px 0px rgba(0,0,0,0);
   font-size: 150%;
 }
+
+/*Eddie's shit*/
+.done {
+  text-decoration: line-through;
+}

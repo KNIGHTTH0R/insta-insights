@@ -15,5 +15,4 @@ NOTES:
 - modularize the code in hello.py
 - show x labels option will hopefully be merged soon:
 https://github.com/nnnick/Chart.js/pull/897
-- hyperlink top 6 fans to IG profiles
-- image hover opacity on thumbnails
+- fix login to redirect bag to landing

@@ -40,9 +40,18 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Insta-Insights</h1>
+            {% if username == 'no' %}
+            <p class="lead text-center"> 1.  Authenticate with Instagram.</p>
+            <p class="lead">
+              <a href="{{ url }}" class="btn btn-lg btn-default">Gimme access</a>
+            </p>
+            {% else %}
+            <p class="lead text-center done"> 1.  Authenticate with Instagram.</p>
+            <p class="lead text-center"> Authenticated as: {{ username }}</p>
+            {% endif %}
             <p class="lead text-center">Click below for some insights into your Instagram posts.</p>
             <p class="lead">
-              <a href="{{ url }}" class="btn btn-lg btn-default" id="crunch-generic">Crunch those numbers</a>
+              <a href="/insights" class="btn btn-lg btn-default" id="crunch-generic">Crunch those numbers</a>
             </p>
             <p class="lead text-center">Or, if you don't have an Instagram account:</p>
             <p class="lead">
@@ -52,7 +61,7 @@
 
           <div class="mastfoot">
             <div class="inner">
-              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+              <p>Cover template for <a target="blank" href="http://getbootstrap.com">Bootstrap</a>, by <a target="blank" href="https://twitter.com/mdo">@mdo</a>.</p>
             </div>
           </div>
 

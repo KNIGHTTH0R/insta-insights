@@ -48,8 +48,12 @@ def color_variant(hex_color, brightness_offset=1):
 @app.route('/')
 def landing():
     url = unauthenticated_api.get_authorize_url()
+    username = 'no'
+    if 'user_info' in session.keys():
+        username = session['user_info']['username']
     return render_template('cover.html',
-        url=url)
+        url=url,
+        username=username)
 
 @app.route('/oauth_callback')
 def oauth_callback():
@@ -57,7 +61,7 @@ def oauth_callback():
     access_token, user_info = unauthenticated_api.exchange_code_for_access_token(code)
     session['access_token'] = access_token 
     session['user_info'] = user_info
-    return redirect(url_for('insights'))
+    return redirect(url_for('landing'))
 
 @app.route('/insights')
 def insights():
