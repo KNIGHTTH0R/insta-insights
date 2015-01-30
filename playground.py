@@ -26,20 +26,22 @@ usernames = [u['username'] for u in result['data']]
 # words in caption
 caption_word_count = {}
 for p in media:
-    this_word_count = len(p.caption.text.split(' '))
-    if this_word_count not in caption_word_count.keys():
-        caption_word_count[this_word_count] = 1
-    else:
-        caption_word_count[this_word_count] += 1
+    if p.caption is not None:
+        this_word_count = len(p.caption.text.split(' '))
+        if this_word_count not in caption_word_count.keys():
+            caption_word_count[this_word_count] = 1
+        else:
+            caption_word_count[this_word_count] += 1
 
 # tags in caption
 caption_tag_count = {}
 for p in media:
-    this_word_count = len(p.caption.text.split(' '))
-    if this_word_count not in caption_word_count.keys():
-        caption_word_count[this_word_count] = 1
-    else:
-        caption_word_count[this_word_count] += 1
+    if 'tags' in p.__dict__.keys():
+        this_tag_count = len(p.tags)
+        if this_tag_count not in caption_tag_count.keys():
+            caption_tag_count[this_tag_count] = 1
+        else:
+            caption_tag_count[this_tag_count] += 1
 
 ################
 
