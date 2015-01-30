@@ -15,7 +15,7 @@ media.reverse() # returned in recent order
 pic1 = media[0]
 
 # it seems media.likes only ever returns 4 users.  trying with url?
-import simplejson, urllib, psycopg2, os, urlparse
+import simplejson, urllib
 url1 = 'https://api.instagram.com/v1/media/' + str(pic1.id) +'/likes?access_token=' + access_token
 result = simplejson.load(urllib.urlopen(url1))
 usernames = [u['username'] for u in result['data']]
@@ -84,6 +84,7 @@ for p in media:
 ################
 # biggest fans
 ################
+
 fans = {}
 pic_urls = {}
 for p in media:
@@ -100,3 +101,10 @@ for p in media:
 df = pd.DataFrame.from_dict(fans, orient='index')
 df.columns = ['posts_liked']
 df = df.sort('posts_liked', ascending=0)
+
+# top 5 + prof pics
+top_fans = []
+for fan in df.iloc[0:5, 0].index:
+    top_fans.append({'username': fan,
+        'likes': int(df.loc[fan]),
+        'prof_pic': pic_urls[fan]})

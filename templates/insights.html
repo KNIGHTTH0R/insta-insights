@@ -109,9 +109,72 @@ type, pic or video
 </div>
 
 <!-- Embarassing -->
-<div class="row row-fix top-buffer bottom-buffer">
+<div class="row row-fix top-buffer">
     <div class="col-md-7 col-centered text-center">
         <h1> Embarassingly, </h1> <h4> you have liked </h4> <h1> {{ sad_count }} </h1> <h4> of your pictures.  Moreover, out of the {{ total_nofilter_count }} times you hash-tagged #nofilter, </h4> <h1> {{ false_nofilter_count }}</h1> <h4> of those pictures had filters.  Come on. </h4>
+    </div>
+</div>
+
+<!-- Fans -->
+<div class="container">
+    <div class="row row-fix top-buffer bottom-buffer">
+        <div class="text-center bottom-buffer">
+            <h1>Your biggest fans</h1>
+        </div>
+        <div class="col-md-2">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename='images/sub_thumb.jpg') }}" id="fan-1-pic">
+              <div class="caption text-center">
+                <h4><div id="fan-1-username"> fan-1-username </div></h4>
+                <div id="fan-1-stats"><p>fan-1-stats</p></div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename='images/sub_thumb.jpg') }}" id="fan-2-pic">
+              <div class="caption text-center">
+                <h4><div id="fan-2-username"> fan-2-username </div></h4>
+                <div id="fan-2-stats"><p>fan-2-stats</p></div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename='images/sub_thumb.jpg') }}" id="fan-3-pic">
+              <div class="caption text-center">
+                <h4><div id="fan-3-username"> fan-3-username </div></h4>
+                <div id="fan-3-stats"><p>fan-3-stats</p></div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename='images/sub_thumb.jpg') }}" id="fan-4-pic">
+              <div class="caption text-center">
+                <h4><div id="fan-4-username"> fan-4-username </div></h4>
+                <div id="fan-4-stats"><p>fan-4-stats</p></div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename='images/sub_thumb.jpg') }}" id="fan-5-pic">
+              <div class="caption text-center">
+                <h4><div id="fan-5-username"> fan-5-username </div></h4>
+                <div id="fan-5-stats"><p>fan-5-stats</p></div>
+              </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="thumbnail">
+              <img src="{{ url_for('static', filename='images/sub_thumb.jpg') }}" id="fan-6-pic">
+              <div class="caption text-center">
+                <h4><div id="fan-6-username"> fan-6-username </div></h4>
+                <div id="fan-6-stats"><p>fan-6-stats</p></div>
+              </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -256,4 +319,14 @@ var data_like_tags = {
     ]
 };
 var chart_like_tags = new Chart(ctx_tag_likes).Bar(data_like_tags);
+
+var top_fans = JSON.parse('{{ top_fans | tojson | safe }}');
+
+for (var i = 0; i < 6; i++) {
+    $('#fan-' + (i + 1) + '-pic').attr("src", top_fans[i]['prof_pic']);
+    $('#fan-' + (i + 1) + '-username').text(top_fans[i]['username']);
+    $('#fan-' + (i + 1) + '-stats').text("liked " + 
+        top_fans[i]['likes'] + "/" + likes.length + " pics");
+
+}
 </script>

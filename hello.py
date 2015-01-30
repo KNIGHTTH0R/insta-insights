@@ -5,6 +5,7 @@ from instagram.client import InstagramAPI
 from collections import Counter
 import numpy as np 
 import pandas as pd
+import simplejson, urllib
 
 app = Flask(__name__)
 app.debug = True
@@ -164,6 +165,32 @@ def insights():
                 if 'nofilter' in [t.name.lower() for t in p.tags]:
                     true_nofilter_count += 1
 
+    ### biggest fans
+    fans = {}
+    pic_urls = {}
+    for p in media:
+        url = 'https://api.instagram.com/v1/media/' + str(p.id) +'/likes?access_token=' + access_token
+        result = simplejson.load(urllib.urlopen(url))
+        for u in result['data']:
+            username = u['username']
+            pic_url = u['profile_picture']
+            if username not in fans.keys():
+                fans[username] = 1
+                pic_urls[username] = pic_url
+            else:
+                fans[username] = fans[username] + 1
+    df = pd.DataFrame.from_dict(fans, orient='index')
+    df.columns = ['posts_liked']
+    df = df.sort('posts_liked', ascending=0)
+
+    # top 5 + prof pics
+    top_fans = []
+    for fan in df.iloc[0:6, 0].index:
+        top_fans.append({'username': fan,
+            'likes': int(df.loc[fan]),
+            'prof_pic': pic_urls[fan]})
+
+
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
@@ -183,7 +210,8 @@ def insights():
         sad_count = sad_count,
         false_nofilter_count=false_nofilter_count,
         true_nofilter_count=true_nofilter_count,
-        total_nofilter_count=false_nofilter_count+true_nofilter_count)
+        total_nofilter_count=false_nofilter_count+true_nofilter_count,
+        top_fans=top_fans)
 
 # testing for myself
 @app.route('/eddie')
@@ -295,6 +323,32 @@ def eddie():
                 if 'nofilter' in [t.name.lower() for t in p.tags]:
                     true_nofilter_count += 1
 
+    ### biggest fans
+    fans = {}
+    pic_urls = {}
+    for p in media:
+        url = 'https://api.instagram.com/v1/media/' + str(p.id) +'/likes?access_token=' + access_token
+        result = simplejson.load(urllib.urlopen(url))
+        for u in result['data']:
+            username = u['username']
+            pic_url = u['profile_picture']
+            if username not in fans.keys():
+                fans[username] = 1
+                pic_urls[username] = pic_url
+            else:
+                fans[username] = fans[username] + 1
+    df = pd.DataFrame.from_dict(fans, orient='index')
+    df.columns = ['posts_liked']
+    df = df.sort('posts_liked', ascending=0)
+
+    # top 5 + prof pics
+    top_fans = []
+    for fan in df.iloc[0:6, 0].index:
+        top_fans.append({'username': fan,
+            'likes': int(df.loc[fan]),
+            'prof_pic': pic_urls[fan]})
+
+
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
@@ -314,7 +368,8 @@ def eddie():
         sad_count = sad_count,
         false_nofilter_count=false_nofilter_count,
         true_nofilter_count=true_nofilter_count,
-        total_nofilter_count=false_nofilter_count+true_nofilter_count)
+        total_nofilter_count=false_nofilter_count+true_nofilter_count,
+        top_fans=top_fans)
 
 if __name__ == '__main__':
     app.run()
