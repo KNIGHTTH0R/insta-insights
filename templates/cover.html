@@ -45,18 +45,18 @@
             <p class="lead">
               <a href="{{ url }}" class="btn btn-lg btn-default">Gimme access</a>
             </p>
-            {% else %}
-            <p class="lead text-center done"> 1.  Authenticate with Instagram.</p>
-            <p class="lead text-center"> Authenticated as: {{ username }}</p>
-            {% endif %}
-            <p class="lead text-center">Click below for some insights into your Instagram posts.</p>
-            <p class="lead">
-              <a href="/insights" class="btn btn-lg btn-default" id="crunch-generic">Crunch those numbers</a>
-            </p>
-            <p class="lead text-center">Or, if you don't have an Instagram account:</p>
+            <p class="lead text-center">(or, if you don't have an Instagram account)</p>
             <p class="lead">
               <a href="/eddie" class="btn btn-lg btn-default" id="crunch-eddie">Crunch Eddie's numbers</a>
             </p>
+            {% else %}
+            <p class="lead text-center done"> 1.  Authenticate with Instagram.</p>
+            <p class="lead text-center"> Authenticated as: {{ username }}</p>
+            <p class="lead text-center">2.  Get insights into your Instagram posts!</p>
+            <p class="lead">
+              <a href="/insights" class="btn btn-lg btn-default" id="crunch-generic">Crunch those numbers</a>
+            </p>
+            {% endif %}
           </div>
 
           <div class="mastfoot">
