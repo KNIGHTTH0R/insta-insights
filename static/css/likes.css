@@ -28,7 +28,7 @@
     margin-right: 0px;
 }
 
-/*below is hover stuff*/
+/*hover stuff*/
 
 .thumbnail {
     position:relative;
@@ -47,4 +47,8 @@
     text-align:center;
     color:#fff !important;
     z-index:2;
+}
+
+.foot-p {
+    margin: 10px;
 }

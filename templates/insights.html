@@ -9,6 +9,7 @@
         <script src="{{ url_for('static', filename='js/numeric-1.2.6.min.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/likes.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sticky-footer.css') }}">
 
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -200,6 +201,12 @@ type, pic or video
         <h1> Embarassingly, </h1> <h4> you have liked </h4> <h1> {{ sad_count }} </h1> <h4> of your own pictures.  Moreover, out of the {{ total_nofilter_count }} times you hash-tagged #nofilter, </h4> <h1> {{ false_nofilter_count }}</h1> <h4> of those pictures had filters.  Come on. </h4>
     </div>
 </div>
+
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted foot-p"> Made by <a href="http://github.com/edz504" target="blank"> Eddie Zhou </a></p>
+    </div>
+</footer>
 
 </body>
 
