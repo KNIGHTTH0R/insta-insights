@@ -80,29 +80,6 @@ type, pic or video
         </div>
     </div>
 </div>
-
-
-<!-- average # of likes by set of people tagged in the photo or caption
-(bar chart) -->
-<!-- <div class="row row-fix top-buffer">
-    <div>
-        <canvas class="chart-canv" id="myChart2"></canvas>
-    </div>
-</div> -->
-
-
-<!-- average # of likes by # of comments
-(bar chart) -->
-
-<!-- average # of likes by # of words in caption
-(bar chart) -->
-
-<!-- average # of likes by # of hashtags in caption
-(bar chart) -->
-
-
-
-
 </body>
 
 </html>
@@ -188,7 +165,7 @@ var data_like_hours = {
     datasets: [
         {
             label: "Mean_Likes",
-            fillColor: "#3498db",
+            fillColor: "#A9CCE3",
             strokeColor: "#2980b9",
             pointColor: "#2980b9",
             pointStrokeColor: "#fff",
@@ -196,7 +173,7 @@ var data_like_hours = {
         },
         {
             label: "Total_Posts",
-            fillColor: "#1abc9c",
+            fillColor: "#A2D9CE",
             strokeColor: "#16a085",
             pointColor: "#16a085",
             pointStrokeColor: "#fff",
@@ -204,7 +181,8 @@ var data_like_hours = {
         }
     ]
 };
-var chart5 = new Chart(ctx_like_hours).Bar(data_like_hours, {
-    multiTooltipTemplate: "<%= datasetLabel %>: <%= value %>"
+var chart5 = new Chart(ctx_like_hours).Line(data_like_hours, {
+    multiTooltipTemplate: "<%= datasetLabel %>: <%= value %>",
+    bezierCurve: false
 });
 </script>

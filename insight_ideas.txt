@@ -1,0 +1,16 @@
+1.  Likes Over Account Lifetime (line)
+2.  Filters (pie chart)
+3.  Media Type (donut chart)
+4.  Average Likes by Filter (bar chart)
+5.  Average Likes and Total Posts by Hour (line chart x 2)
+
+
+Captions
+- # of words in captions (donut chart)
+- # of tags in captions (pie chart)
+
+Biggest Fans
+- top 5 in Bootstrap thumbnail
+- top 50 in bar chart
+
+Embarassing (# of own pictures liked, number of times #nofilter used when there was actually a filter)
