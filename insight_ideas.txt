@@ -1,8 +1,8 @@
 1.  Likes Over Account Lifetime (line)
-2.  Filters (pie chart)
-3.  Media Type (donut chart)
+2, 3.  Filters (pie chart), Media Type (donut chart)
 4.  Average Likes by Filter (bar chart)
 5.  Average Likes and Total Posts by Hour (line chart x 2)
+6, 7.  # Word in Caption (donut chart), # of Tags in Caption (pie chart)
 
 
 Captions
@@ -14,3 +14,8 @@ Biggest Fans
 - top 50 in bar chart
 
 Embarassing (# of own pictures liked, number of times #nofilter used when there was actually a filter)
+
+
+
+NOTES:
+- modularize the code in hello.py

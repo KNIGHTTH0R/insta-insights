@@ -191,6 +191,37 @@ def eddie():
     for mhour in missing_hours:
         posts_by_hour_list[mhour] = 0
 
+    ### captions
+    # words in caption
+    caption_word_count = {}
+    for p in media:
+        if p.caption is not None:
+            this_word_count = len(p.caption.text.split(' '))
+            if this_word_count not in caption_word_count.keys():
+                caption_word_count[this_word_count] = 1
+            else:
+                caption_word_count[this_word_count] += 1
+
+    caption_word_data = []
+    for i in range(0, len(caption_word_count.keys())):
+        this_word_count = caption_word_count.keys()[i]
+        caption_word_data.append({'label': this_word_count, 'value': caption_word_count[this_word_count], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
+
+    # tags in caption
+    caption_tag_count = {}
+    for p in media:
+        if 'tags' in p.__dict__.keys():
+            this_tag_count = len(p.tags)
+            if this_tag_count not in caption_tag_count.keys():
+                caption_tag_count[this_tag_count] = 1
+            else:
+                caption_tag_count[this_tag_count] += 1
+
+    caption_tag_data = []
+    for i in range(0, len(caption_tag_count.keys())):
+        this_tag_count = caption_tag_count.keys()[i]
+        caption_tag_data.append({'label': this_tag_count, 'value': caption_tag_count[this_tag_count], 'color': colors[i], 'highlight': color_variant(colors[i], brightness_offset=50)})
+
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
@@ -202,7 +233,9 @@ def eddie():
         filter_likes = mean_by_filter_list,
         hours = range(0, 24),
         hour_likes = mean_by_hour_list,
-        hour_posts = posts_by_hour_list)
+        hour_posts = posts_by_hour_list,
+        caption_word_count = caption_word_data,
+        caption_tag_count = caption_tag_data)
 
 if __name__ == '__main__':
     app.run()

@@ -85,6 +85,24 @@ type, pic or video
         </div>
     </div>
 </div>
+
+<!-- word counts in caption 
+(pie chart) 
+and
+tag counts in caption
+(pie chart) -->
+<div class="container">
+    <div class="row row-fix top-buffer">
+        <div class="half-1">
+        <h3 class="text-center"> # Words in Captions </h3>
+            <canvas class="chart-canv" id="caption-word-count" ></canvas>
+        </div>
+        <div class="half-2">
+        <h3 class="text-center"> # Tags in Captions </h3>
+            <canvas class="chart-canv" id="caption-tag-count" ></canvas>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
@@ -121,7 +139,7 @@ var data_like_lifetime = {
         }
     ]
 };
-var chart1 = new Chart(ctx_likes).Line(data_like_lifetime, {
+var chart_like_lifetime = new Chart(ctx_likes).Line(data_like_lifetime, {
     showXLabels: 10,
     tooltipTemplate: "<%= value %>",
 });
@@ -129,9 +147,9 @@ var chart1 = new Chart(ctx_likes).Line(data_like_lifetime, {
 var filter_counts = JSON.parse('{{ filter_counts | tojson | safe }}');
 var type_counts = JSON.parse('{{ type_counts | tojson | safe }}');
 var ctx_filters = $("#filters").get(0).getContext("2d");
-var chart2 = new Chart(ctx_filters).Pie(filter_counts);
+var chart_filters = new Chart(ctx_filters).Pie(filter_counts);
 var ctx_type = $("#type").get(0).getContext("2d");
-var chart3 = new Chart(ctx_type).Doughnut(type_counts);
+var chart_types = new Chart(ctx_type).Doughnut(type_counts);
 
 var filters = JSON.parse('{{ filters | tojson | safe }}');
 var filter_likes = JSON.parse('{{ filter_likes | tojson | safe }}');
@@ -149,20 +167,19 @@ var data_like_filter = {
         }
     ]
 };
-var chart4 = new Chart(ctx_like_filter).Bar(data_like_filter);
+var chart_like_filter = new Chart(ctx_like_filter).Bar(data_like_filter);
 
 
 var hours = JSON.parse('{{ hours | tojson | safe }}');
 var hour_likes = JSON.parse('{{ hour_likes | tojson | safe }}');
 var hour_posts = JSON.parse('{{ hour_posts | tojson | safe }}');
 
+// rotate the three arrays for time zone conversion
 for (var i = 0; i < off_hours; i++) {
     hour_likes = arrayRotate(hour_likes, true);
     hour_posts = arrayRotate(hour_posts, true);
 }
-console.log(hour_likes);
-console.log(hour_posts);
-// rotate the three arrays for time zone conversion
+
 
 var ctx_like_hours = $('#like-hour').get(0).getContext("2d");
 var data_like_hours = {
@@ -186,8 +203,15 @@ var data_like_hours = {
         }
     ]
 };
-var chart5 = new Chart(ctx_like_hours).Line(data_like_hours, {
+var chart_like_hours = new Chart(ctx_like_hours).Line(data_like_hours, {
     multiTooltipTemplate: "<%= datasetLabel %>: <%= value %>",
     bezierCurve: false
 });
+
+var caption_word_count = JSON.parse('{{ caption_word_count | tojson | safe }}');
+var ctx_caption_word_count = $("#caption-word-count").get(0).getContext("2d");
+var chart_caption_word_count = new Chart(ctx_caption_word_count).Doughnut(caption_word_count);
+var caption_tag_count = JSON.parse('{{ caption_tag_count | tojson | safe }}');
+var ctx_caption_tag_count = $("#caption-tag-count").get(0).getContext("2d");
+var chart_caption_tag_count = new Chart(ctx_caption_tag_count).Pie(caption_tag_count);
 </script>
