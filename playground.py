@@ -45,6 +45,41 @@ for p in media:
 
 ################
 
+################
+# embarassing
+
+# number of your own pictures you liked
+sad_count = 0
+for p in media:
+    if (p.user_has_liked):
+        sad_count += 1
+
+# count number of #nofilter with filters
+norm_filter_count = 0
+some_filter_count = 0
+false_nofilter_count = 0
+true_nofilter_count = 0
+
+for p in media:
+    # check if there is actually no filter
+    if p.filter != 'Normal':
+        some_filter_count += 1
+        # check if there is a #nofilter hashtag     
+        if 'tags' in p.__dict__.keys():
+            if 'nofilter' in [t.name.lower() for t in p.tags]:
+                false_nofilter_count += 1
+    else:
+        norm_filter_count += 1
+        # check if there is a #nofilter hashtag     
+        if 'tags' in p.__dict__.keys():
+            if 'nofilter' in [t.name.lower() for t in p.tags]:
+                true_nofilter_count += 1
+
+
+################
+
+
+
 
 ################
 # biggest fans

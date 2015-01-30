@@ -2,20 +2,19 @@
 2, 3.  Filters (pie chart), Media Type (donut chart)
 4.  Average Likes by Filter (bar chart)
 5.  Average Likes and Total Posts by Hour (line chart x 2)
-6, 7.  # Word in Caption (donut chart), # of Tags in Caption (pie chart)
+6.  Average Likes by # Words in Caption
+7.  Average Likes by # Tags in Caption 
+8.  Embarassing (# of own pictures liked, number of false #nofilters)
 
-
-Captions
-- # of words in captions (donut chart)
-- # of tags in captions (pie chart)
 
 Biggest Fans
 - top 5 in Bootstrap thumbnail
 - top 50 in bar chart
 
-Embarassing (# of own pictures liked, number of times #nofilter used when there was actually a filter)
+
 
 
 
 NOTES:
 - modularize the code in hello.py
+- add link to /eddie on landing
