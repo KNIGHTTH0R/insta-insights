@@ -6,13 +6,12 @@
 7.  Average Likes by # Tags in Caption 
 8.  Embarassing (# of own pictures liked, number of false #nofilters)
 9.  Top 6 biggest fans in thumbnails
+10.  Top 50 fans in chart
 
-Biggest Fans
 
-- top 50 in bar chart
 
 NOTES:
 - modularize the code in hello.py
 - show x labels option will hopefully be merged soon:
 https://github.com/nnnick/Chart.js/pull/897
-- fix login to redirect bag to landing
+- logging events: 1 = user authenticated with IG, 2 = user successfully viewed insights page, 0 = someone viewed /eddie

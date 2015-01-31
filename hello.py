@@ -389,7 +389,16 @@ def eddie():
         fan50_likes.append(int(df.loc[fan]))
 
 
-
+    ##### record event, action = 1
+    urlparse.uses_netloc.append('postgres')
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    conn = psycopg2.connect("dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname))
+    cur = conn.cursor()
+    query = "INSERT INTO events VALUES ('%s', '%s', 0);" % (strftime("%Y-%m-%d %H:%M:%S %Z"), 
+        user_info['username'])
+    cur.execute(query)
+    conn.commit()
+    conn.close()
     return render_template('insights.html',
         username=user_info['username'],
         likes=likes,
