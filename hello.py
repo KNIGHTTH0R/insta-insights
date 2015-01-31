@@ -6,6 +6,9 @@ from collections import Counter
 import numpy as np 
 import pandas as pd
 import simplejson, urllib
+import psycopg2
+import urlparse
+from time import strftime
 
 app = Flask(__name__)
 app.debug = True
@@ -61,6 +64,16 @@ def oauth_callback():
     access_token, user_info = unauthenticated_api.exchange_code_for_access_token(code)
     session['access_token'] = access_token 
     session['user_info'] = user_info
+    ##### record event, action = 1
+    urlparse.uses_netloc.append('postgres')
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    conn = psycopg2.connect("dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname))
+    cur = conn.cursor()
+    query = "INSERT INTO events VALUES ('%s', '%s', 1);" % (strftime("%Y-%m-%d %H:%M:%S %Z"), 
+        user_info['username'])
+    cur.execute(query)
+    conn.commit()
+    conn.close()
     return redirect(url_for('landing'))
 
 @app.route('/insights')
@@ -200,7 +213,16 @@ def insights():
         fan50_usernames.append(fan)
         fan50_likes.append(int(df.loc[fan]))
 
-
+    ##### record event, action = 2
+    urlparse.uses_netloc.append('postgres')
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    conn = psycopg2.connect("dbname=%s user=%s password=%s host=%s " % (url.path[1:], url.username, url.password, url.hostname))
+    cur = conn.cursor()
+    query = "INSERT INTO events VALUES ('%s', '%s', 2);" % (strftime("%Y-%m-%d %H:%M:%S %Z"), 
+        user_info['username'])
+    cur.execute(query)
+    conn.commit()
+    conn.close()
 
     return render_template('insights.html',
         username=user_info['username'],
